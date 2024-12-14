@@ -11,17 +11,34 @@ case $choice in
 		git config --global http.sslVerify false
         # Check if "/usr/data/klipper" directory exists if exists then remove it
         if [ -d "/usr/data/klipper" ]; then
-            read -p "New klipper will be download to /usr/data/klipper but folder is exist. Do you want to remove it (yes/no) " install_confirm
-            case $install_confirm in
-                yes|YES)
-                    echo "Removing old klipper folder..."
-                    rm -rf /usr/data/klipper
+            echo "Removing old klipper folder..."
+            rm -rf /usr/data/klipper
         fi
 		git clone https://github.com/lamtranBKHN/creality_k1_klipper.git /usr/data/klipper
+        # Check if "/usr/data/old.klipper" directory exists if exists then remove it
+        if [ -d "/usr/data/old.klipper" ]; then
+            echo "Removing old klipper folder..."
+            rm -rf /usr/data/old.klipper
+        fi
 		mv /usr/share/klipper /usr/data/old.klipper
 		ln -s /usr/data/klipper /usr/share/klipper
-  		cp /usr/data/printer_data/config/printer.cfg /usr/data/printer_data/config/printer.bak
-		cp /usr/data/printer_data/config/gcode_macro.cfg /usr/data/printer_data/config/gcode_macro.bak
+        # Check if "/usr/data/printer_data/config/printer.bak" file exists if exists then remove it
+        if [ -f "/usr/data/printer_data/config/printer.bak" ]; then
+            echo "Removing old printer.cfg backup file..."
+            rm /usr/data/printer_data/config/printer.bak
+        fi
+  		mv /usr/data/printer_data/config/printer.cfg /usr/data/printer_data/config/printer.bak
+        # Check if "/usr/data/printer_data/config/gcode_macro.bak" file exists if exists then remove it
+        if [ -f "/usr/data/printer_data/config/gcode_macro.bak" ]; then
+            echo "Removing old gcode_macro.cfg backup file..."
+            rm /usr/data/printer_data/config/gcode_macro.bak
+        fi
+		mv /usr/data/printer_data/config/gcode_macro.cfg /usr/data/printer_data/config/gcode_macro.bak
+        # Check if "/usr/data/printer_data/config/sensorless.bak" file exists if exists then remove it
+        if [ -f "/usr/data/printer_data/config/sensorless.bak" ]; then
+            echo "Removing old sensorless.cfg backup file..."
+            rm /usr/data/printer_data/config/sensorless.bak
+        fi
 		mv /usr/data/printer_data/config/sensorless.cfg /usr/data/printer_data/config/sensorless.bak
 		wget --no-check-certificate -P /usr/data/printer_data/config/ https://raw.githubusercontent.com/lamtranBKHN/installer_script_k1_and_max/main/sensorless.cfg
     		sed -i '/^\[bl24c16f\]/,/^$/d' /usr/data/printer_data/config/printer.cfg
