@@ -9,23 +9,27 @@ case $choice in
             yes|YES)
                 echo "Downloading Klipper Repository"
 		git config --global http.sslVerify false
-		git clone https://github.com/K1-Klipper/klipper.git /usr/data/klipper
+        # Check if "/usr/data/klipper" directory exists if exists then remove it
+        if [ -d "/usr/data/klipper" ]; then
+            rm -rf /usr/data/klipper
+        fi
+		git clone https://github.com/lamtranBKHN/creality_k1_klipper.git /usr/data/klipper
 		mv /usr/share/klipper /usr/data/old.klipper
 		ln -s /usr/data/klipper /usr/share/klipper
   		cp /usr/data/printer_data/config/printer.cfg /usr/data/printer_data/config/printer.bak
 		cp /usr/data/printer_data/config/gcode_macro.cfg /usr/data/printer_data/config/gcode_macro.bak
 		mv /usr/data/printer_data/config/sensorless.cfg /usr/data/printer_data/config/sensorless.bak
-		wget --no-check-certificate -P /usr/data/printer_data/config/ https://raw.githubusercontent.com/K1-Klipper/installer_script_k1_and_max/main/sensorless.cfg
+		wget --no-check-certificate -P /usr/data/printer_data/config/ https://raw.githubusercontent.com/lamtranBKHN/installer_script_k1_and_max/main/sensorless.cfg
     		sed -i '/^\[bl24c16f\]/,/^$/d' /usr/data/printer_data/config/printer.cfg
       		sed -i '/^square_corner_max_velocity: 200.0$/d' /usr/data/printer_data/config/printer.cfg
 		sed -i '/\[gcode_macro START_PRINT\]/,/CX_PRINT_DRAW_ONE_LINE/d' /usr/data/printer_data/config/gcode_macro.cfg
 		sed -i 's/CXSAVE_CONFIG/SAVE_CONFIG/g' /usr/data/printer_data/config/gcode_macro.cfg
 		sed -in '/\[include printer_params.cfg\]$/a\[include start_macro.cfg\]' /usr/data/printer_data/config/printer.cfg
-                wget --no-check-certificate -P /usr/data/printer_data/config/ https://raw.githubusercontent.com/K1-Klipper/installer_script_k1_and_max/main/start_macro.cfg 
-		wget --no-check-certificate -P /usr/data/klipper/klippy/extra/ https://raw.githubusercontent.com/Guilouz/Creality-Helper-Script/main/files/klipper-virtual-pins/virtual_pins.py
+                wget --no-check-certificate -P /usr/data/printer_data/config/ https://raw.githubusercontent.com/lamtranBKHN/installer_script_k1_and_max/main/start_macro.cfg 
+		wget --no-check-certificate -P /usr/data/klipper/klippy/extra/ https://raw.githubusercontent.com/lamtranBKHN/installer_script_k1_and_max/main/virtual_pins.py
 		/usr/share/klippy-env/bin/python3 -m compileall /usr/data/klipper/klippy
   		mv /etc/init.d/S55klipper_service /usr/data/S55klipper_service.bak
-    		wget --no-check-certificate -P /etc/init.d/ https://raw.githubusercontent.com/K1-Klipper/installer_script_k1_and_max/main/S55klipper_service
+    		wget --no-check-certificate -P /etc/init.d/ https://raw.githubusercontent.com/lamtranBKHN/installer_script_k1_and_max/main/S55klipper_service
 		chmod +x /etc/init.d/S55klipper_service
 		/etc/init.d/S55klipper_service restart
   		echo "Please reboot machine by using power switch on back to complete installation"

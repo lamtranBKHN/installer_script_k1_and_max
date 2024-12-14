@@ -1,7 +1,7 @@
 # How to use:
 ```
 cd /usr/data
-wget --no-check-certificate https://raw.githubusercontent.com/K1-Klipper/installer_script_k1_and_max/main/installer.sh
+wget --no-check-certificate https://raw.githubusercontent.com/lamtranBKHN/installer_script_k1_and_max/refs/heads/main/installer.sh
 chmod +x installer.sh
 ./installer.sh
 ```
@@ -11,7 +11,7 @@ chmod +x installer.sh
 
 Creality shipped klipper that had not been updated since 2022. As such it was missing many patches and new features that had been added to the main repository. This will install the updated klipper for K1 found at
 
-https://github.com/K1-Klipper/klipper
+https://github.com/lamtranBKHN/creality_k1_klipper
 
 
 This is a community based effort to keep klipper up to date for the K1/Max
