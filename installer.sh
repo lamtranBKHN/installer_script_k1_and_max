@@ -11,7 +11,11 @@ case $choice in
 		git config --global http.sslVerify false
         # Check if "/usr/data/klipper" directory exists if exists then remove it
         if [ -d "/usr/data/klipper" ]; then
-            rm -rf /usr/data/klipper
+            read -p "New klipper will be download to /usr/data/klipper but folder is exist. Do you want to remove it (yes/no) " install_confirm
+            case $install_confirm in
+                yes|YES)
+                    echo "Removing old klipper folder..."
+                    rm -rf /usr/data/klipper
         fi
 		git clone https://github.com/lamtranBKHN/creality_k1_klipper.git /usr/data/klipper
 		mv /usr/share/klipper /usr/data/old.klipper
